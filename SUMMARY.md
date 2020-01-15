@@ -1,4 +1,4 @@
-1. params 参数处理：
+### 1. params 参数处理：
 - 参数值为基本类型：直接拼接到 url 后面，要保留原本 url 的查询参数
 ```javascript
 axios({
@@ -70,7 +70,7 @@ axios({
 - 丢弃 url 中的哈希 #
 
 
-2. typescript 知识
+### 2. typescript 知识
 - 字符串字面量
 ```typescript
 type Method = 'get' | 'GET'
@@ -95,5 +95,22 @@ if(isObject(a)) {
   // 如果 isObject 判断成功，if 作用域中，就明确知道 a 的类型是 Object
 } else {
   // 同时明确知道，在另一个分支 a 的类型不是 Object，如果 a 是联合类型，可以是联合类型的其他类型。
+}
+```
+
+- Promise<T>: Promise 泛型，resolve的参数会是 T 类型
+
+### 3. 处理响应数据成 Promise 返回
+定义响应数据的接口，txios 返回值类型为 Promise<TxiosResponse>泛型，resolve 的值的类型为 TxiosResponse 类型
+
+对响应数据进行封装处理 resolve 出去，外部可以通过 then 获取到
+```typescript
+const response: TxiosResponse = {
+  data: xhr.responseType && xhr.responseType === 'text' ? xhr.responseText : xhr.response,
+  status: xhr.status,
+  statusText: xhr.statusText,
+  headers: xhr.getAllResponseHeaders(), // 获取所有响应头的方法
+  config, // txios 请求的配置
+  request: xhr  // xhr 对象
 }
 ```

@@ -1,12 +1,12 @@
-import { TxiosRequestConfig } from './types/index'
+import { TxiosRequestConfig, TxiosPromise } from './types/index'
 import { handleUrl } from './helpers/handleUrl'
 import xhr from './xhr'
 import { handleData } from './helpers/handleData'
 import { handleHeaders } from './helpers/handleHeaders'
 
-function txios(config: TxiosRequestConfig) {
+function txios(config: TxiosRequestConfig): TxiosPromise {
   handleConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 function handleConfig(config: TxiosRequestConfig) {
