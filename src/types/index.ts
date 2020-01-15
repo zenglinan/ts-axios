@@ -21,6 +21,7 @@ export interface TxiosRequestConfig {
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface TxiosResponse {
@@ -32,6 +33,12 @@ export interface TxiosResponse {
   request: any
 }
 
-export interface TxiosPromise extends Promise<TxiosResponse>{
-  
+export interface TxiosErr {
+  message: string
+  config: TxiosRequestConfig
+  status: number
+  request?: any
+  response?: TxiosResponse
 }
+
+export interface TxiosPromise extends Promise<TxiosResponse> {}

@@ -16,6 +16,7 @@ app.use(express.static(__dirname))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(router)
 
 router.get('/simple/get', function(req, res) {
   res.json({
@@ -43,8 +44,24 @@ router.post('/base/buffer', function(req, res) {
     res.json(buf.toJSON())
   })
 })
+router.get('/error/get', function(req, res) {
+  if (Math.random() > 0.5) {
+    res.json({
+      msg: `hello world`
+    })
+  } else {
+    res.status(500)
+    res.end()
+  }
+})
 
-app.use(router)
+router.get('/error/timeout', function(req, res) {
+  setTimeout(() => {
+    res.json({
+      msg: `hello world`
+    })
+  }, 3000)
+})
 
 app.use(webpackDevMiddleware(compiler, {
   publicPath: '/__build__/',

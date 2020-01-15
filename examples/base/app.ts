@@ -99,8 +99,6 @@ axios({
   }
 })
 
-const paramsString = 'q=URLUtils.searchParams&topic=api'
-
 axios({
   method: 'post',
   url: '/base/post',
