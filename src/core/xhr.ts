@@ -1,6 +1,6 @@
-import { TxiosRequestConfig, TxiosPromise, TxiosResponse } from './types'
-import { handleResHeader } from './helpers/handleResHeader'
-import { createError } from './helpers/createError'
+import { TxiosRequestConfig, TxiosPromise, TxiosResponse } from '../types'
+import { handleResHeader } from '../helpers/handleResHeader'
+import { createError } from '../helpers/createError'
 
 export default function xhr(config: TxiosRequestConfig): TxiosPromise {
   return new Promise((resolve, reject) => {

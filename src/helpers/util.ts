@@ -13,3 +13,10 @@ export function isNullOrUndef(val: any): boolean {
 export function isDate(val: any): val is Date {
   return toString(val) === '[object Date]'
 }
+
+export function extend<T, U>(to: T, from: U): T & U {
+  for (let key in from) {
+    (to as T & U)[key] = (from as T & U)[key]
+  }
+  return to as T & U
+}

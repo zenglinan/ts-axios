@@ -1,4 +1,4 @@
-type Method =
+export type Method =
   | 'get'
   | 'GET'
   | 'post'
@@ -15,7 +15,7 @@ type Method =
   | 'PATCH'
 
 export interface TxiosRequestConfig {
-  url: string
+  url?: string
   method?: Method
   data?: any
   params?: any
@@ -33,7 +33,7 @@ export interface TxiosResponse {
   request: any
 }
 
-export interface TxiosErr {
+export interface TxiosError {
   message: string
   config: TxiosRequestConfig
   status: number
@@ -41,4 +41,30 @@ export interface TxiosErr {
   response?: TxiosResponse
 }
 
-export interface TxiosPromise extends Promise<TxiosResponse> {}
+export interface TxiosPromise extends Promise<TxiosResponse> {
+}
+
+export interface Txios {
+
+  request(config: TxiosRequestConfig): TxiosPromise
+
+  get(url: string, config?: TxiosRequestConfig): TxiosPromise
+
+  delete(url: string, config?: TxiosRequestConfig): TxiosPromise
+
+  head(url: string, config?: TxiosRequestConfig): TxiosPromise
+
+  options(url: string, config?: TxiosRequestConfig): TxiosPromise
+
+  post(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise
+
+  put(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise
+
+  patch(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise
+}
+
+export interface TxiosInstance extends Txios {
+  (config: TxiosRequestConfig): TxiosPromise
+
+  (url: string, config: TxiosRequestConfig): TxiosPromise
+}

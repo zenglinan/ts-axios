@@ -1,6 +1,6 @@
-import { TxiosRequestConfig, TxiosResponse, TxiosErr } from '../types'
+import { TxiosRequestConfig, TxiosResponse, TxiosError } from '../types'
 
-export class TxiosError extends Error {
+export class TxiosErr extends Error {
   config: TxiosRequestConfig // 请求配置
   status?: number // 状态码
   request?: any // 请求 xhr 对象
@@ -9,7 +9,7 @@ export class TxiosError extends Error {
   constructor(
     message: string,
     config: TxiosRequestConfig,
-    status: number,
+    status?: number,
     request?: any,
     response?: TxiosResponse
   ) {
@@ -21,6 +21,6 @@ export class TxiosError extends Error {
   }
 }
 
-export function createError({ message, config, status, request, response }: TxiosErr) {
-  return new TxiosError(message, config, status, request, response)
+export function createError({ message, config, status, request, response }: TxiosError) {
+  return new TxiosErr(message, config, status, request, response)
 }

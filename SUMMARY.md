@@ -116,10 +116,10 @@ const response: TxiosResponse = {
 ```
 ### 4. 将 xhr.getAllResponseHeaders() 返回的字符串处理成对象
 ### 5. 尝试将返回的字符串数据转换成 JSON
-
+，
 ### 6. 错误处理
 - 网络错误: xhr.onerror
 - 超时错误: 给 xhr 设置 timeout，监听 xhr.ontimeout
 - 状态码错误: 监听 xhr.onreadstatechange，注意在 status 为 0 的时候退出（此时为网络错误或超时）
 
-对于返回的错误，定义 TxiosError 类，TxiosError 继承 Error，并创建 createError 的工厂函数
+对于返回的错误，定义 TxiosErr 类，TxiosErr 继承 Error，并创建 createError 的工厂函数
