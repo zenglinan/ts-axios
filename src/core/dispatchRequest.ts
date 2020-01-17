@@ -14,7 +14,7 @@ function dispatchRequest(config: TxiosRequestConfig): TxiosPromise {
 }
 
 function handleConfig(config: TxiosRequestConfig) {
-  config.url = handleUrl(config.url, config.params)
+  config.url = handleUrl(config.url!, config.params)
   config.headers = handleHeaders(config.headers, config.data)
   config.data = handleData(config.data)
 }

@@ -102,6 +102,10 @@ router.get('/extend/user', function(req, res) {
     }
   })
 })
+
+router.get('/interceptor/get', function(req, res) {
+  res.end('hello')
+})
 app.use(webpackDevMiddleware(compiler, {
   publicPath: '/__build__/',
   stats: {

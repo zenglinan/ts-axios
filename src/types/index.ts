@@ -68,3 +68,36 @@ export interface TxiosInstance extends Txios {
 
   <T = any>(config: TxiosRequestConfig): TxiosPromise<T>
 }
+
+/* interceptor */
+
+// txios instance's interceptors object
+export interface Interceptors {
+  request: TxiosInterceptorOperator<TxiosRequestConfig>
+  response: TxiosInterceptorOperator<TxiosResponse>
+}
+
+// use's param resolve
+export interface ResolveFn<T> {
+  (config: T): T | Promise<T>
+}
+
+// use's param reject
+export interface RejectFn {
+  (error: any): any
+}
+
+// txios.interceptors.request & txios.interceptors.response
+export interface TxiosInterceptorOperator<T> {
+  interceptorCallbacks: Array<InterceptorCallback<T> | null>
+
+  use(resolve: ResolveFn<T>, reject: RejectFn): number
+
+  eject(id: number): void
+}
+
+// interceptor callback saved in interceptorOperator
+export interface InterceptorCallback<T> {
+  resolve: ResolveFn<T>
+  reject?: RejectFn
+}

@@ -1,17 +1,53 @@
-import { TxiosRequestConfig, TxiosPromise, Method } from '../types'
+import {
+  TxiosRequestConfig, TxiosPromise, Method,
+  TxiosResponse, Interceptors, ResolveFn, RejectFn
+} from '../types'
 import dispatchRequest from './dispatchRequest'
+import InterceptorOperator from './InterceptorOperator'
+
+interface Chain {
+  resolve: ResolveFn<any> | ((config: TxiosRequestConfig) => TxiosPromise)
+  reject: RejectFn | undefined
+}
 
 export default class Txios {
-  request<T>(url: any, config?: any): TxiosPromise<T> {
-    if (typeof url === 'string') {
-      if (!config) {
-        config = {}
-      }
-      config.url = url
-    } else {
-      config = url
+  interceptors: Interceptors
+
+  constructor() {
+    this.interceptors = {
+      request: new InterceptorOperator<TxiosRequestConfig>(),
+      response: new InterceptorOperator<TxiosResponse>()
     }
-    return dispatchRequest(config)
+  }
+
+  request<T>(url: any, config?: any): TxiosPromise<T> {
+    config = this.overload(url, config)  // 参数重载
+
+    let chain: Chain[] = [{
+      resolve: dispatchRequest,
+      reject: undefined
+    }]
+
+    this.interceptors.request.interceptorCallbacks.forEach((callback) => {
+      if (callback) {
+        const { resolve, reject } = callback!
+        chain.unshift({ resolve, reject })
+      }
+    })
+
+    this.interceptors.response.interceptorCallbacks.forEach((callback) => {
+      if (callback) {
+        const { resolve, reject } = callback!
+        chain.push({ resolve, reject })
+      }
+    })
+
+    let promise = Promise.resolve(config)
+    while (chain.length > 0) {
+      const { resolve, reject } = chain.shift()!
+      promise = promise.then(resolve, reject)
+    }
+    return promise
   }
 
   get<T>(url: string, config: TxiosRequestConfig): TxiosPromise<T> {
@@ -55,5 +91,17 @@ export default class Txios {
       method,
       data
     })) as TxiosPromise<T>
+  }
+
+  private overload(url: string, config?: any) {
+    if (typeof url === 'string') {
+      if (!config) {
+        config = {}
+      }
+      config.url = url
+    } else {
+      config = url
+    }
+    return config
   }
 }

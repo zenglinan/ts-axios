@@ -4,7 +4,7 @@ import Txios from './core/Txios'
 
 function createInstance(): TxiosInstance {
   const context = new Txios()
-  const instance = Txios.prototype.request
+  const instance = Txios.prototype.request.bind(context)
 
   extend(instance, context)
   return instance as TxiosInstance
