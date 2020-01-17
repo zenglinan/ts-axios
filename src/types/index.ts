@@ -24,8 +24,8 @@ export interface TxiosRequestConfig {
   timeout?: number
 }
 
-export interface TxiosResponse {
-  data: any
+export interface TxiosResponse<T = any> {
+  data: T
   status: number
   statusText: string
   headers: any
@@ -41,30 +41,30 @@ export interface TxiosError {
   response?: TxiosResponse
 }
 
-export interface TxiosPromise extends Promise<TxiosResponse> {
+export interface TxiosPromise<T = any> extends Promise<TxiosResponse<T>> {
 }
 
 export interface Txios {
 
-  request(config: TxiosRequestConfig): TxiosPromise
+  request<T>(config: TxiosRequestConfig): TxiosPromise<T>
 
-  get(url: string, config?: TxiosRequestConfig): TxiosPromise
+  get<T>(url: string, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  delete(url: string, config?: TxiosRequestConfig): TxiosPromise
+  delete<T>(url: string, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  head(url: string, config?: TxiosRequestConfig): TxiosPromise
+  head<T>(url: string, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  options(url: string, config?: TxiosRequestConfig): TxiosPromise
+  options<T>(url: string, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  post(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise
+  post<T>(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  put(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise
+  put<T>(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  patch(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise
+  patch<T>(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise<T>
 }
 
 export interface TxiosInstance extends Txios {
-  (config: TxiosRequestConfig): TxiosPromise
+  <T = any>(url: string, config?: TxiosRequestConfig): TxiosPromise<T>
 
-  (url: string, config: TxiosRequestConfig): TxiosPromise
+  <T = any>(config: TxiosRequestConfig): TxiosPromise<T>
 }

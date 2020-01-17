@@ -2,9 +2,9 @@ import { TxiosRequestConfig, TxiosPromise, Method } from '../types'
 import dispatchRequest from './dispatchRequest'
 
 export default class Txios {
-  request(url: any, config?: any): TxiosPromise {
-    if(typeof url === 'string') {
-      if(!config) {
+  request<T>(url: any, config?: any): TxiosPromise<T> {
+    if (typeof url === 'string') {
+      if (!config) {
         config = {}
       }
       config.url = url
@@ -14,46 +14,46 @@ export default class Txios {
     return dispatchRequest(config)
   }
 
-  get(url: string, config: TxiosRequestConfig): TxiosPromise {
-    return this.requestWithoutData('get', url, config)
+  get<T>(url: string, config: TxiosRequestConfig): TxiosPromise<T> {
+    return this.requestWithoutData<T>('get', url, config)
   }
 
-  delete(url: string, config: TxiosRequestConfig): TxiosPromise {
-    return this.requestWithoutData('delete', url, config)
+  delete<T>(url: string, config: TxiosRequestConfig): TxiosPromise<T> {
+    return this.requestWithoutData<T>('delete', url, config)
   }
 
-  options(url: string, config: TxiosRequestConfig): TxiosPromise {
-    return this.requestWithoutData('options', url, config)
+  options<T>(url: string, config: TxiosRequestConfig): TxiosPromise<T> {
+    return this.requestWithoutData<T>('options', url, config)
   }
 
-  head(url: string, config: TxiosRequestConfig): TxiosPromise {
-    return this.requestWithoutData('head', url, config)
+  head<T>(url: string, config: TxiosRequestConfig): TxiosPromise<T> {
+    return this.requestWithoutData<T>('head', url, config)
   }
 
-  post(url: string, config: TxiosRequestConfig, data?: any): TxiosPromise {
-    return this.requestWithData('post', url, config, data)
+  post<T>(url: string, config: TxiosRequestConfig, data?: any): TxiosPromise<T> {
+    return this.requestWithData<T>('post', url, config, data)
   }
 
-  put(url: string, config: TxiosRequestConfig, data?: any): TxiosPromise {
-    return this.requestWithData('put', url, config, data)
+  put<T>(url: string, config: TxiosRequestConfig, data?: any): TxiosPromise<T> {
+    return this.requestWithData<T>('put', url, config, data)
   }
 
-  patch(url: string, config: TxiosRequestConfig, data?: any): TxiosPromise {
-    return this.requestWithData('patch', url, config, data)
+  patch<T>(url: string, config: TxiosRequestConfig, data?: any): TxiosPromise<T> {
+    return this.requestWithData<T>('patch', url, config, data)
   }
 
-  requestWithoutData(method: Method, url: string, config: TxiosRequestConfig): TxiosPromise {
+  requestWithoutData<T>(method: Method, url: string, config: TxiosRequestConfig) {
     return this.request(Object.assign(config || {}, {
       url,
       method
-    }))
+    })) as TxiosPromise<T>
   }
 
-  requestWithData(method: Method, url: string, config: TxiosRequestConfig, data?: any): TxiosPromise {
+  requestWithData<T>(method: Method, url: string, config: TxiosRequestConfig, data?: any) {
     return this.request(Object.assign(config || {}, {
       url,
       method,
       data
-    }))
+    })) as TxiosPromise<T>
   }
 }
